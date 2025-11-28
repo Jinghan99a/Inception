@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 
-DATA_PATH		= /home/jinhuang/data
+#DATA_PATH		= /home/jinhuang/data
 COMPOSE_FILE	= srcs/docker-compose.yml
 ENV_FILE		= srcs/.env
 
@@ -40,8 +40,8 @@ up:
 	@echo "$(BLUE)$(BOLD)  Starting Inception...$(RESET)"
 	@echo "$(CYAN)$(BOLD)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$(RESET)"
 	@echo "$(YELLOW)📁 Creating data directories...$(RESET)"
-	@mkdir -p $(DATA_PATH)/wordpress
-	@mkdir -p $(DATA_PATH)/mariadb
+	@mkdir -p $(HOME)/data/wordpress
+	@mkdir -p $(HOME)/data/mariadb
 	@echo "$(GREEN)✓ Data directories created$(RESET)"
 	@echo "$(YELLOW)🔨 Building and starting containers...$(RESET)"
 	@cd srcs && docker compose up -d --build
@@ -83,8 +83,8 @@ fclean: clean
 	@echo "$(YELLOW)  → Removing Docker images...$(RESET)"
 	@docker system prune -af --volumes 2>/dev/null || true
 	@echo "$(YELLOW)  → Removing data directories...$(RESET)"
-	@sudo rm -rf $(DATA_PATH)/wordpress/* 2>/dev/null || true
-	@sudo rm -rf $(DATA_PATH)/mariadb/* 2>/dev/null || true
+	@sudo rm -rf $(HOME)/data/wordpress/* 2>/dev/null || true
+	@sudo rm -rf $(HOME)/data/mariadb/* 2>/dev/null || true
 	@echo "$(GREEN)✓ Deep clean completed$(RESET)"
 
 # 完全重建
@@ -132,8 +132,8 @@ check:
 	@echo "$(YELLOW)Checking .env file...$(RESET)"
 	@test -f $(ENV_FILE) && echo "$(GREEN)✓ .env file exists$(RESET)" || echo "$(RED)✗ .env file not found$(RESET)"
 	@echo "$(YELLOW)Checking data directories...$(RESET)"
-	@test -d $(DATA_PATH)/wordpress && echo "$(GREEN)✓ WordPress data directory exists$(RESET)" || echo "$(RED)✗ WordPress data directory not found$(RESET)"
-	@test -d $(DATA_PATH)/mariadb && echo "$(GREEN)✓ MariaDB data directory exists$(RESET)" || echo "$(RED)✗ MariaDB data directory not found$(RESET)"
+	@test -d $(HOME)/data/wordpress && echo "$(GREEN)✓ WordPress data directory exists$(RESET)" || echo "$(RED)✗ WordPress data directory not found$(RESET)"
+	@test -d $(HOME)/data/mariadb && echo "$(GREEN)✓ MariaDB data directory exists$(RESET)" || echo "$(RED)✗ MariaDB data directory not found$(RESET)"
 	@echo "$(CYAN)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$(RESET)"
 
 # 显示帮助信息
