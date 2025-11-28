@@ -8,9 +8,7 @@ echo "=========================================="
 echo "  WordPress Auto-Configuration Script"
 echo "=========================================="
 
-# ==========================================
-# 1. 下载 WP-CLI（用于自动安装）
-# ==========================================
+# 1. Download WP-CLI
 if [ ! -f "$WP_CLI" ]; then
     echo "📥 Downloading WP-CLI..."
     curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -21,9 +19,7 @@ else
     echo "✅ WP-CLI already installed"
 fi
 
-# ==========================================
-# 2. 下载 WordPress（官方源）
-# ==========================================
+# 2. Download WordPress
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
     echo "📥 Downloading WordPress from official source..."
     cd /tmp
@@ -36,18 +32,14 @@ else
     echo "✅ WordPress already downloaded"
 fi
 
-# ==========================================
-# 3. 等待 MariaDB 就绪
-# ==========================================
+# 3. Wait for MariaDB
 echo "⏳ Waiting for MariaDB..."
 until mysql -h mariadb -u"$DB_NAME_USER" -p"$DB_PASSWORD" -e "SELECT 1;" >/dev/null 2>&1; do
     sleep 2
 done
 echo "✅ MariaDB is ready"
 
-# ==========================================
-# 4. 生成 wp-config.php
-# ==========================================
+# 4. Generate wp-config.php
 if [ ! -f "$WP_PATH/wp-config.php" ]; then
     echo "📝 Creating wp-config.php..."
     
@@ -60,15 +52,12 @@ if [ ! -f "$WP_PATH/wp-config.php" ]; then
         --allow-root \
         --skip-check
         
-    
     echo "✅ wp-config.php created"
 else
     echo "✅ wp-config.php already exists"
 fi
 
-# ==========================================
-# 5. 自动安装 WordPress（核心部分）
-# ==========================================
+# 5. Install WordPress
 echo "🔍 Checking WordPress installation status..."
 
 if ! "$WP_CLI" core is-installed --path="$WP_PATH" --allow-root 2>/dev/null; then
@@ -89,9 +78,7 @@ else
     echo "✅ WordPress already installed"
 fi
 
-# ==========================================
-# 6. 创建第二个用户（评估要求）
-# ==========================================
+# 6. Create second user
 echo "👤 Checking second user..."
 
 if ! "$WP_CLI" user get "$WP_USER" --path="$WP_PATH" --allow-root >/dev/null 2>&1; then
@@ -110,16 +97,12 @@ else
     echo "✅ Second user already exists"
 fi
 
-# ==========================================
-# 7. 设置权限
-# ==========================================
+# 7. Set permissions
 echo "🔒 Setting permissions..."
 chown -R www-data:www-data "$WP_PATH" /run/php
 echo "✅ Permissions set"
 
-# ==========================================
-# 8. 启动 PHP-FPM
-# ==========================================
+# 8. Start PHP-FPM
 echo "=========================================="
 echo "  Starting PHP-FPM..."
 echo "=========================================="

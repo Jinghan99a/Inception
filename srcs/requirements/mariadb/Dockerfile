@@ -28,7 +28,7 @@ EXPOSE 3306
 # Persist data
 VOLUME ["/var/lib/mysql"]
 
-# 使用 root 执行 ENTRYPOINT 脚本，在脚本内切换到 mysql 用户
+# Run the ENTRYPOINT script as root, and switch to the mysql user inside the script.
 ENTRYPOINT ["/docker-entrypoint-initdb.d/init-db.sh"]
 
 
