@@ -77,7 +77,6 @@ if ! "$WP_CLI" core is-installed --path="$WP_PATH" --allow-root 2>/dev/null; the
     "$WP_CLI" core install \
         --path="$WP_PATH" \
         --url="https://${DOMAIN_NAME}" \
-        #--url="https://localhost:8443" \
         --title="$WP_TITLE" \
         --admin_user="$WP_ADMIN_LOGIN" \
         --admin_password="$WP_ADMIN_PASSWORD" \
